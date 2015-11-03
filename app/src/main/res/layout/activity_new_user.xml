@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    android:layout_height="match_parent"
+    android:id="@+id/newUserLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.example.rohan.arms.NewUser">
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:hintTextAppearance = "@style/accentStyle"
+        android:layout_width="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:hint="Enter Email"
+            android:textSize="20sp"
+            android:textColorHint="#7B1FA2"
+            android:id="@+id/newEmail"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:hintTextAppearance = "@style/accentStyle"
+        android:layout_width="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:hint="Enter Password"
+            android:textSize="20sp"
+            android:password="true"
+            android:textColorHint="#7B1FA2"
+            android:id="@+id/newPassword"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:hintTextAppearance = "@style/accentStyle"
+        android:layout_width="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:hint="Confirm Password"
+            android:textSize="20sp"
+            android:textColorHint="#7B1FA2"
+            android:password="true"
+            android:id="@+id/newConfirmPassword"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:layout_margin="10dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:id="@+id/register"
+        android:background="@drawable/small_button"
+        android:text="Register"
+        android:layout_weight="1"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:text="Cancel"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:id="@+id/cancel"
+        android:background="@drawable/small_button"
+        android:layout_margin="10dp"
+        android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</LinearLayout>
