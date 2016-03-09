@@ -16,13 +16,46 @@ import android.widget.TextView;
 
 public class Menu extends AppCompatActivity {
 
+    com.example.rohan.arms.MenuItem[] menuItems;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        final GridView gridview = (GridView) findViewById(R.id.gridview);
+
+        menuItems = new com.example.rohan.arms.MenuItem[9];
+
+        for(int i=0; i < 9; i+=3)
+        {
+            menuItems[i] = new com.example.rohan.arms.MenuItem();
+            menuItems[i].setName("Chicken Burger");
+            menuItems[i].setImageUrl("http://40.media.tumblr.com/062e35064c093c8dff0b659eefbd7064/tumblr_n5ztctVEew1s3jg9qo1_500.png");
+            menuItems[i].setPrice("Rs. 200/-");
+        }
+
+        for(int i=1; i < 9; i+=3)
+        {
+            menuItems[i] = new com.example.rohan.arms.MenuItem();
+            menuItems[i].setName("Veg Noodles");
+            menuItems[i].setImageUrl("http://www.omazoni.com/assets/user_images/slider_images/cropped/Noodles+Omazoni+1411796765.png");
+            menuItems[i].setPrice("Rs. 250/-");
+        }
+
+        for(int i=2; i < 9; i+=3)
+        {
+            menuItems[i] = new com.example.rohan.arms.MenuItem();
+            menuItems[i].setName("Paneer Tikka");
+            menuItems[i].setImageUrl("http://www.omazoni.com/assets/user_images/slider_images/cropped/Paneer+Tikka+Final+1411661204.png");
+            menuItems[i].setPrice("Rs. 275/-");
+        }
+
+
+        MenuItemArrayAdapter allItems = new MenuItemArrayAdapter(getApplicationContext(), 0, menuItems);
+        gridview.setAdapter(allItems);
 
         View parentLayout = findViewById(R.id.root_view);
 
@@ -37,8 +70,7 @@ public class Menu extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 AlertDialog.Builder b = new AlertDialog.Builder(Menu.this);
                 b.setTitle("Add to order?");
-                b.setMessage("Price: Rs.200/-");
-
+              
                 b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
