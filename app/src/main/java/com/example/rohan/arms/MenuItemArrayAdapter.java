@@ -12,6 +12,9 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Rohan on 09-Mar-16.
  */
@@ -19,18 +22,25 @@ public class MenuItemArrayAdapter extends ArrayAdapter
 {
 
     Context mContext;
+    MenuItem[] mObjects;
 
     public MenuItemArrayAdapter(Context context, int resource, MenuItem[] objects)
     {
         super(context, resource, objects);
         mContext = context;
+        mObjects = objects;
     }
-
     public class MenuItemViewHolder
     {
         TextView tvItemName;
         TextView tvItemPrice;
         ImageView ivItemImage;
+    }
+
+    @Override
+    public MenuItem getItem(int position)
+    {
+        return mObjects[position];
     }
 
     @Override
@@ -57,10 +67,11 @@ public class MenuItemArrayAdapter extends ArrayAdapter
             MenuItem item = (MenuItem)getItem(position);
             vh.tvItemName.setText(item.getName());
             vh.tvItemName.setTextColor(Color.BLACK);
-            vh.tvItemPrice.setText(item.getPrice());
+            vh.tvItemPrice.setText("Rs. " + item.getPrice() + "/-");
             vh.tvItemPrice.setTextColor(Color.BLACK);
             Picasso.with(mContext).load(item.getImageUrl()).into(vh.ivItemImage);
 
         return convertView;
     }
+
 }

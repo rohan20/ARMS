@@ -1,9 +1,11 @@
 package com.example.rohan.arms;
 
+import java.io.Serializable;
+
 /**
  * Created by Rohan on 3/9/2016.
  */
-public class MenuItem
+public class MenuItem implements Serializable
 {
     private String id;
     private String name;

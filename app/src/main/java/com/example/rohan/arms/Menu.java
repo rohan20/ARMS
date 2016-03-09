@@ -14,9 +14,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-public class Menu extends AppCompatActivity {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Menu extends AppCompatActivity
+{
 
     com.example.rohan.arms.MenuItem[] menuItems;
+    MenuItemArrayAdapter allItems;
+    com.example.rohan.arms.MenuItem item;
+    ArrayList<com.example.rohan.arms.MenuItem> orderedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,7 +41,7 @@ public class Menu extends AppCompatActivity {
             menuItems[i] = new com.example.rohan.arms.MenuItem();
             menuItems[i].setName("Chicken Burger");
             menuItems[i].setImageUrl("http://40.media.tumblr.com/062e35064c093c8dff0b659eefbd7064/tumblr_n5ztctVEew1s3jg9qo1_500.png");
-            menuItems[i].setPrice("Rs. 200/-");
+            menuItems[i].setPrice("200");
         }
 
         for(int i=1; i < 9; i+=3)
@@ -42,7 +49,7 @@ public class Menu extends AppCompatActivity {
             menuItems[i] = new com.example.rohan.arms.MenuItem();
             menuItems[i].setName("Veg Noodles");
             menuItems[i].setImageUrl("http://www.omazoni.com/assets/user_images/slider_images/cropped/Noodles+Omazoni+1411796765.png");
-            menuItems[i].setPrice("Rs. 250/-");
+            menuItems[i].setPrice("250");
         }
 
         for(int i=2; i < 9; i+=3)
@@ -50,11 +57,11 @@ public class Menu extends AppCompatActivity {
             menuItems[i] = new com.example.rohan.arms.MenuItem();
             menuItems[i].setName("Paneer Tikka");
             menuItems[i].setImageUrl("http://www.omazoni.com/assets/user_images/slider_images/cropped/Paneer+Tikka+Final+1411661204.png");
-            menuItems[i].setPrice("Rs. 275/-");
+            menuItems[i].setPrice("275");
         }
 
 
-        MenuItemArrayAdapter allItems = new MenuItemArrayAdapter(getApplicationContext(), 0, menuItems);
+        allItems = new MenuItemArrayAdapter(getApplicationContext(), 0, menuItems);
         gridview.setAdapter(allItems);
 
         View parentLayout = findViewById(R.id.root_view);
@@ -65,15 +72,24 @@ public class Menu extends AppCompatActivity {
 
         Snackbar.make(parentLayout, "Log In Successful", Snackbar.LENGTH_LONG).show();
 
+        orderedItems = new ArrayList<>();
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
+            {
+
+                item = allItems.getItem(position);
+
                 AlertDialog.Builder b = new AlertDialog.Builder(Menu.this);
                 b.setTitle("Add to order?");
-              
-                b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                b.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        orderedItems.add(item);
                         Snackbar.make(view, "Item added to order", Snackbar.LENGTH_SHORT).show();
                     }
                 });
@@ -90,7 +106,8 @@ public class Menu extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+    public boolean onCreateOptionsMenu(android.view.Menu menu)
+    {
         getMenuInflater().inflate(R.menu.menu_view_order, menu);
         return true;
     }
@@ -102,7 +119,10 @@ public class Menu extends AppCompatActivity {
 
         if(id == R.id.viewOrder)
         {
-            Intent i = new Intent(this, ViewOrder.class);
+            Intent i = new Intent(Menu.this, ViewOrder.class);
+            Bundle b = new Bundle();
+            b.putSerializable("OrderedItemsArray", orderedItems);
+            i.putExtras(b);
             startActivity(i);
         }
 

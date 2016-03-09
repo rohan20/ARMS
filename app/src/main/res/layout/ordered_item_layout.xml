@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:text="Chicken Burger"
+        android:gravity="center"
+        android:id="@+id/name"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="x1"
+        android:id="@+id/quantity"
+        android:gravity="center"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="Rs. 800"
+        android:id="@+id/price"
+        android:paddingRight="20dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        />
+
+
+</LinearLayout>

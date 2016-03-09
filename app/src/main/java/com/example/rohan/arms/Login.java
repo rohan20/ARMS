@@ -92,7 +92,7 @@ public class Login extends AppCompatActivity {
 
                 };
 
-                // Or with an email/password combination
+//                 Or with an email/password combination
                 ref.authWithPassword(etEmail.getText().toString(), etPassword.getText().toString(), authResultHandler);
             }
         });
