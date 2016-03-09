@@ -70,8 +70,8 @@ public class Menu extends AppCompatActivity {
 
         if(id == R.id.viewOrder)
         {
-//            Intent i = new Intent(this, ViewOrder.class);
-//            startActivity(i);
+            Intent i = new Intent(this, ViewOrder.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
