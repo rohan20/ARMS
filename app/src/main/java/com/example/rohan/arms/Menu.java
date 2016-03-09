@@ -89,6 +89,14 @@ public class Menu extends AppCompatActivity {
             Intent i = new Intent(this, ViewOrder.class);
             startActivity(i);
         }
+        else if(id == R.id.action_logout){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove(Constant.SHARED_PREF_UID_KEY);
+            editor.commit();
+            Intent intent = new Intent(this,Login.class);
+            startActivity(intent);
+            this.finish();
+        }
 
         return super.onOptionsItemSelected(item);
     }

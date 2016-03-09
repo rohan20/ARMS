@@ -10,8 +10,12 @@
         android:id="@+id/viewOrder"
         android:title="View Order"
         android:showAsAction="always"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         />
+    <item android:id="@+id/action_logout"
+        android:title="Logout"
+        android:showAsAction="never"
+        android:orderInCategory="2"/>
 
 
     <!--android:showAsAction="always"    NOT WORKING?? -->
