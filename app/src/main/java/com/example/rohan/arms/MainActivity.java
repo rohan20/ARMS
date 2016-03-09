@@ -20,17 +20,13 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         bLogin = (Button)findViewById(R.id.login);
         armsFullForm = (TextView) findViewById(R.id.ARMS);
         armsShortForm = (TextView) findViewById(R.id.arms);
         armsShortForm.setVisibility(View.INVISIBLE);
-
         Typeface t = Typeface.createFromAsset(getAssets(), "fonts/corbel.ttf");
-
         armsFullForm.setTypeface(t);
         armsShortForm.setTypeface(t);
-
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -39,7 +35,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-
     }
 
 }

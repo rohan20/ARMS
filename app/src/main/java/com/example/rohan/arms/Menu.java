@@ -4,19 +4,33 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class Menu extends AppCompatActivity {
 
-    com.example.rohan.arms.MenuItem[] menuItems;
+    SharedPreferences sharedPreferences;
+    Firebase rootRef,userRef,restaurantRef,menuRef;
+    String uid;
+    RecyclerView recyclerView;
+    MenuRecyclerAdapter mAdapter;
+    TextView nameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,69 +38,39 @@ public class Menu extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        final GridView gridview = (GridView) findViewById(R.id.gridview);
-
-        menuItems = new com.example.rohan.arms.MenuItem[9];
-
-        for(int i=0; i < 9; i+=3)
-        {
-            menuItems[i] = new com.example.rohan.arms.MenuItem();
-            menuItems[i].setName("Chicken Burger");
-            menuItems[i].setImageUrl("http://40.media.tumblr.com/062e35064c093c8dff0b659eefbd7064/tumblr_n5ztctVEew1s3jg9qo1_500.png");
-            menuItems[i].setPrice("Rs. 200/-");
-        }
-
-        for(int i=1; i < 9; i+=3)
-        {
-            menuItems[i] = new com.example.rohan.arms.MenuItem();
-            menuItems[i].setName("Veg Noodles");
-            menuItems[i].setImageUrl("http://www.omazoni.com/assets/user_images/slider_images/cropped/Noodles+Omazoni+1411796765.png");
-            menuItems[i].setPrice("Rs. 250/-");
-        }
-
-        for(int i=2; i < 9; i+=3)
-        {
-            menuItems[i] = new com.example.rohan.arms.MenuItem();
-            menuItems[i].setName("Paneer Tikka");
-            menuItems[i].setImageUrl("http://www.omazoni.com/assets/user_images/slider_images/cropped/Paneer+Tikka+Final+1411661204.png");
-            menuItems[i].setPrice("Rs. 275/-");
-        }
-
-
-        MenuItemArrayAdapter allItems = new MenuItemArrayAdapter(getApplicationContext(), 0, menuItems);
-        gridview.setAdapter(allItems);
-
-        View parentLayout = findViewById(R.id.root_view);
-
-        Typeface t = Typeface.createFromAsset(getAssets(), "fonts/corbel.ttf");
-        TextView tv = (TextView)findViewById(R.id.clickOnItemToAddToOrder);
-        tv.setTypeface(t);
-
-        Snackbar.make(parentLayout, "Log In Successful", Snackbar.LENGTH_LONG).show();
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        nameTextView = (TextView)this.findViewById(R.id.menuRestaurantNameTextView);
+        sharedPreferences = getSharedPreferences("ARMS_USER", MODE_PRIVATE);
+        uid = sharedPreferences.getString(Constant.SHARED_PREF_UID_KEY, "");
+        rootRef = new Firebase(Constant.ROOT_URL);
+        userRef = rootRef.child("users").child(uid);
+        restaurantRef = userRef.child("restaurant");
+        Firebase restaurantNameRef = restaurantRef.child("name");
+        restaurantNameRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                AlertDialog.Builder b = new AlertDialog.Builder(Menu.this);
-                b.setTitle("Add to order?");
-              
-                b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Snackbar.make(view, "Item added to order", Snackbar.LENGTH_SHORT).show();
-                    }
-                });
-                b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nameTextView.setText(dataSnapshot.getValue().toString());
+            }
 
-                    }
-                });
-
-                b.create().show();
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                nameTextView.setText("Unable to connect");
             }
         });
+        menuRef = restaurantRef.child("menu");
+        recyclerView = (RecyclerView)this.findViewById(R.id.recyclerView);
+        mAdapter = new MenuRecyclerAdapter(this,new MenuRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                com.example.rohan.arms.MenuItem menuItem = mAdapter.getItem(position);
+                Toast.makeText(getApplicationContext(), menuItem.getName(), Toast.LENGTH_LONG).show();
+            }
+        },
+                com.example.rohan.arms.MenuItem.class,
+                R.layout.row_menu_item, MenuRecyclerAdapter.MenuViewHolder.class,menuRef);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        View parentLayout = findViewById(R.id.root_view);
+        Snackbar.make(parentLayout, "Log In Successful", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
